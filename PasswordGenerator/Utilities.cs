@@ -23,7 +23,12 @@ namespace Brettski.PasswordGenerator
             else
                 return Value;
         }
-
+        /// <summary>
+        /// Verifies Character Values being passed in are valid
+        /// </summary>
+        /// <param name="Value">The character value being set</param>
+        /// <param name="ParameterName">The class.parameter being updated. (E.g. PasswordGenerator.UpperAlpha)</param>
+        /// <returns></returns>
         public static bool PassCharacterValueParameterChecks(string Value, string ParameterName )
         {
             bool retVal = false;
@@ -34,6 +39,19 @@ namespace Brettski.PasswordGenerator
             else
                 retVal = true;
             return retVal;
+        }
+        /// <summary>
+        /// verifies integer values being passed in are valid
+        /// </summary>
+        /// <param name="Value">Integer value</param>
+        /// <param name="ParameterName">The class.parameter being updated. (E.g. PasswordGenerator.PasswordLength)</param>
+        /// <returns></returns>
+        public static bool IsPositiveInteger(int Value, string ParameterName)
+        {
+            if (Value < 1)
+                throw new ArgumentException(string.Format("Value for {0} must be a postive integer greater than 0. (sent:{1})", ParameterName, Value), ParameterName);
+            else
+                return !(Value < 1);
         }
     }
 }

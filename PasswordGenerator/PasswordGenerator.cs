@@ -25,7 +25,6 @@ namespace Brettski.PasswordGenerator
             UseSpecial = false;
         }
 
-
         #region Methods
 
         public string GeneratePassword()
@@ -41,6 +40,11 @@ namespace Brettski.PasswordGenerator
 
             PasswordResult = BuildingPw.ToString();
             return PasswordResult;
+        }
+        public string GeneratePassword(int Length)
+        {
+            this.PasswordLength = Length;
+            return GeneratePassword();
         }
         private string GetPasswordCharacter(List<PasswordCharacterType> PasswordCharTypeList)
         {
@@ -150,7 +154,16 @@ namespace Brettski.PasswordGenerator
             }
         }
         // --
-        public int PasswordLength { get; set; }
+        public int PasswordLength 
+        { 
+            get {return _PassowrdLength; }
+            set
+            {
+                if (Utilities.IsPositiveInteger(value, "PasswordGenerator.PasswordLength"))
+                    _PassowrdLength = value;
+            }
+
+        }
         public string PasswordResult { get; private set; }
         public string PasswordPhonetic { get; private set; }
         public bool UseUpper { get; set; }
@@ -165,6 +178,7 @@ namespace Brettski.PasswordGenerator
         private string _Numbers;
         private string _Punctuation;
         private string _Special;
+        private int _PassowrdLength;
         private static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
         
         #endregion

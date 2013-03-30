@@ -9,6 +9,12 @@ namespace Brettski.PasswordGenerator
         /// <returns>A random password</returns>
         string GeneratePassword();
         /// <summary>
+        /// Generates a password with given length
+        /// </summary>
+        /// <param name="Length">Length of password to create</param>
+        /// <returns></returns>
+        string GeneratePassword(int Length);
+        /// <summary>
         /// Set or get values used as upper case alpha values.
         /// Default: ABCDEFGHIJKLMNOPQRSTUVWXYZ
         /// Max length: 256
