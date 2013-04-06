@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Brettski.PasswordGenerator
 {
     interface IPasswordGenerator
@@ -14,6 +15,13 @@ namespace Brettski.PasswordGenerator
         /// <param name="Length">Length of password to create</param>
         /// <returns></returns>
         string GeneratePassword(int Length);
+        /// <summary>
+        /// Generates a bulk password list
+        /// </summary>
+        /// <param name="PasswordLength">Length of password to create</param>
+        /// <param name="PasswordCount">Number of passwords to create</param>
+        /// <returns>List of passwords created</returns>
+        List<string> GenerateBulkPasswords(int PasswordLength, int PasswordCount);
         /// <summary>
         /// Set or get values used as upper case alpha values.
         /// Default: ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -52,10 +60,12 @@ namespace Brettski.PasswordGenerator
         /// Not Enabled
         /// </summary>
         string PasswordPhonetic { get; }
+/*
         /// <summary>
         /// Last password generated
         /// </summary>
         string PasswordResult { get; }
+*/
         /// <summary>
         /// Set true to use upper case value set
         /// </summary>

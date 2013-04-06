@@ -38,13 +38,56 @@ namespace Brettski.PasswordGenerator
 
             }
 
-            PasswordResult = BuildingPw.ToString();
-            return PasswordResult;
+            //PasswordResult = BuildingPw.ToString();
+            //return PasswordResult;
+            return BuildingPw.ToString();
         }
         public string GeneratePassword(int Length)
         {
             this.PasswordLength = Length;
             return GeneratePassword();
+        }
+        /// <summary>
+        /// Returns a string List<> of passwords
+        /// </summary>
+        /// <param name="PasswordLength">Legnth of password to create</param>
+        /// <param name="PasswordCount">Number of passwords to create</param>
+        /// <returns>List<> of passwords</returns>
+        public List<string> GenerateBulkPasswords(int PasswordLength, int PasswordCount)
+        {
+            if (!Utilities.IsPositiveInteger(PasswordLength, "PasswordGenerator.GenerateBulkPasswords>>PasswordLength"))
+                return new List<string>(0);
+            if (!Utilities.IsPositiveInteger(PasswordCount, "PasswordGenerator.GenerateBulkPasswords>>PasswordCount"))
+                return new List<string>(0);
+            int count = (int)(PasswordCount * 0.01) + PasswordCount;
+            System.Collections.Concurrent.ConcurrentQueue<string> pwdQueue = new System.Collections.Concurrent.ConcurrentQueue<string>();
+            //List<string> FinalPwList = new List<string>(PasswordCount);
+            HashSet<string> FinalPwSet = new HashSet<string>();
+            string ts = string.Empty;
+            Parallel.For(1, count, l =>
+                {
+                    pwdQueue.Enqueue(this.GeneratePassword(PasswordLength));
+                    
+                });
+            while (FinalPwSet.Count < PasswordCount)
+            {
+                if (!pwdQueue.IsEmpty)
+                {
+                    if (pwdQueue.TryDequeue(out ts))
+                    {
+                        //if(!FinalPwSet.Contains(ts))
+                            FinalPwSet.Add(ts);
+                    }
+                }
+                else
+                {
+                    ts = this.GeneratePassword(PasswordLength);
+                    //if (!FinalPwSet.Contains(ts))
+                        FinalPwSet.Add(ts);
+                }
+
+            }
+            return FinalPwSet.ToList<string>();
         }
         private string GetPasswordCharacter(List<PasswordCharacterType> PasswordCharTypeList)
         {
@@ -164,7 +207,7 @@ namespace Brettski.PasswordGenerator
             }
 
         }
-        public string PasswordResult { get; private set; }
+        //public string PasswordResult { get; private set; }
         public string PasswordPhonetic { get; private set; }
         public bool UseUpper { get; set; }
         public bool UseLower { get; set; }
