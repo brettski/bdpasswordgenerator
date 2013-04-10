@@ -18,8 +18,8 @@ namespace Brettski.PasswordGenerator
             Punctuation = PUNCTUATION;
             Special = SPECIAL;
             PasswordLength = DEFAULT_PASSWORD_LENGTH;
-            UseUpper = true;
-            UseLower = true;
+            UseUpperAlpha = true;
+            UseLowerAlpha = true;
             UseNumbers = true;
             UsePunctuation = false;
             UseSpecial = false;
@@ -53,11 +53,14 @@ namespace Brettski.PasswordGenerator
         /// <param name="PasswordLength">Legnth of password to create</param>
         /// <param name="PasswordCount">Number of passwords to create</param>
         /// <returns>List<> of passwords</returns>
-        public List<string> GenerateBulkPasswords(int PasswordLength, int PasswordCount)
+        public List<string> GeneratePasswordList(int PasswordLength, int PasswordCount)
         {
             if (!Utilities.IsPositiveInteger(PasswordLength, "PasswordGenerator.GenerateBulkPasswords>>PasswordLength"))
                 return new List<string>(0);
+            this.PasswordLength = PasswordLength;
             if (!Utilities.IsPositiveInteger(PasswordCount, "PasswordGenerator.GenerateBulkPasswords>>PasswordCount"))
+                return new List<string>(0);
+            if (!CurrentValuesAllowPossiblePwList(PasswordCount))
                 return new List<string>(0);
             int count = (int)(PasswordCount * 0.01) + PasswordCount;
             System.Collections.Concurrent.ConcurrentQueue<string> pwdQueue = new System.Collections.Concurrent.ConcurrentQueue<string>();
@@ -137,13 +140,48 @@ namespace Brettski.PasswordGenerator
         private List<PasswordCharacterType> GetPasswordCharacterTypeList()
         {
             List<PasswordCharacterType> pctl = new List<PasswordCharacterType>();
-            if (UseUpper) pctl.Add(new PasswordCharacterType("UpperAlpha", this.UpperAlpha));
-            if (UseLower) pctl.Add(new PasswordCharacterType("LowerAlpha", this.LowerAlpha));
+            if (UseUpperAlpha) pctl.Add(new PasswordCharacterType("UpperAlpha", this.UpperAlpha));
+            if (UseLowerAlpha) pctl.Add(new PasswordCharacterType("LowerAlpha", this.LowerAlpha));
             if (UseNumbers) pctl.Add(new PasswordCharacterType("Numbers", this.Numbers));
             if (UsePunctuation) pctl.Add(new PasswordCharacterType("Punctuation", this.Punctuation));
             if (UseSpecial) pctl.Add(new PasswordCharacterType("Special", this.Special));
 
             return pctl;
+        }
+        /// <summary>
+        /// Verifies that there are enough total combinations of PasswordCharacterTypes to cover the number
+        /// of requested passwords
+        /// </summary>
+        /// <param name="PasswordCount">Number of passwords requested to generate</param>
+        /// <returns>result if values will allow the requested password list</returns>
+        private bool CurrentValuesAllowPossiblePwList(int PasswordCount)
+        {
+            bool isOkay = true;
+            int TotalPossibleValues = 0;
+            if (UseUpperAlpha)
+                TotalPossibleValues += UpperAlpha.Length;
+            if (UseLowerAlpha)
+                TotalPossibleValues += LowerAlpha.Length;
+            if (UseNumbers)
+                TotalPossibleValues += Numbers.Length;
+            if (UsePunctuation)
+                TotalPossibleValues += Punctuation.Length;
+            if (UseSpecial)
+                TotalPossibleValues += Special.Length;
+            double tpvals = Math.Pow(TotalPossibleValues, TotalPossibleValues);
+            double dvals = (double)(PasswordCount * PasswordLength);
+            if ( tpvals < dvals )
+            {
+                isOkay = false;
+                throw new ArgumentOutOfRangeException("PasswordCount", string.Format("There are not enough PassowrdCharacterType combinations to create {0} passwords with a length of {1}. Total:{2}, ToGenerate:{3}", PasswordCount, PasswordLength, tpvals, dvals));
+            }
+            tpvals = Math.Pow(TotalPossibleValues, PasswordLength);//TotalPossibleValues * PasswordCount;
+            if (tpvals < dvals)
+            {
+                isOkay = false;
+                throw new ArgumentOutOfRangeException("PasswordCount", string.Format("There are not enough possible combinations to create the password count you have selected. Total Possible:{0}, Total Requested:{1}", tpvals, PasswordCount));
+            }
+            return isOkay;
         }
 
         #endregion
@@ -209,8 +247,8 @@ namespace Brettski.PasswordGenerator
         }
         //public string PasswordResult { get; private set; }
         public string PasswordPhonetic { get; private set; }
-        public bool UseUpper { get; set; }
-        public bool UseLower { get; set; }
+        public bool UseUpperAlpha { get; set; }
+        public bool UseLowerAlpha { get; set; }
         public bool UseNumbers { get; set; }
         public bool UsePunctuation { get; set; }
         public bool UseSpecial { get; set; }

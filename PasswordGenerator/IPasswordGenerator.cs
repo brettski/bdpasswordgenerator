@@ -21,7 +21,7 @@ namespace Brettski.PasswordGenerator
         /// <param name="PasswordLength">Length of password to create</param>
         /// <param name="PasswordCount">Number of passwords to create</param>
         /// <returns>List of passwords created</returns>
-        List<string> GenerateBulkPasswords(int PasswordLength, int PasswordCount);
+        List<string> GeneratePasswordList(int PasswordLength, int PasswordCount);
         /// <summary>
         /// Set or get values used as upper case alpha values.
         /// Default: ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -69,11 +69,11 @@ namespace Brettski.PasswordGenerator
         /// <summary>
         /// Set true to use upper case value set
         /// </summary>
-        bool UseUpper { get; set; }
+        bool UseUpperAlpha { get; set; }
         /// <summary>
         /// Set true to use lower case value set
         /// </summary>
-        bool UseLower { get; set; }
+        bool UseLowerAlpha { get; set; }
         /// <summary>
         /// Set true to use number value set
         /// </summary>
