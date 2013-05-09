@@ -10,7 +10,7 @@ namespace Brettski.PasswordGenerator
     {
 
 
-        public static Dictionary<string, string> GetNato()
+        public static Dictionary<string, string> GetNatoPhoneticDictionary()
         {
             Dictionary<string, string> _Nato = new Dictionary<string,string>();
             _Nato.Add("a", "Alpha");

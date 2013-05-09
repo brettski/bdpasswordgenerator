@@ -63,13 +63,14 @@ namespace Brettski.PasswordGenerator
             if (!CurrentValuesAllowPossiblePwList(PasswordCount))
                 return new List<string>(0);
             int count = (int)(PasswordCount * 0.01) + PasswordCount;
+            this.PasswordLength = PasswordLength;
             System.Collections.Concurrent.ConcurrentQueue<string> pwdQueue = new System.Collections.Concurrent.ConcurrentQueue<string>();
             //List<string> FinalPwList = new List<string>(PasswordCount);
             HashSet<string> FinalPwSet = new HashSet<string>();
             string ts = string.Empty;
             Parallel.For(1, count, l =>
                 {
-                    pwdQueue.Enqueue(this.GeneratePassword(PasswordLength));
+                    pwdQueue.Enqueue(this.GeneratePassword());
                     
                 });
             while (FinalPwSet.Count < PasswordCount)
