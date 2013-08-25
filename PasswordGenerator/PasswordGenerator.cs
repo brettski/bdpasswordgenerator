@@ -26,7 +26,10 @@ namespace Brettski.PasswordGenerator
         }
 
         #region Methods
-
+        /// <summary>
+        /// Generates a password
+        /// </summary>
+        /// <returns>A random string</returns>
         public string GeneratePassword()
         {
             StringBuilder BuildingPw = new StringBuilder(PasswordLength);
@@ -42,6 +45,11 @@ namespace Brettski.PasswordGenerator
             //return PasswordResult;
             return BuildingPw.ToString();
         }
+        /// <summary>
+        /// Generates a password with given lenth
+        /// </summary>
+        /// <param name="Length">Length of password to create</param>
+        /// <returns>A random string</returns>
         public string GeneratePassword(int Length)
         {
             this.PasswordLength = Length;

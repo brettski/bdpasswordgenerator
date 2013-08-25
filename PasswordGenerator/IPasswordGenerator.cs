@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 namespace Brettski.PasswordGenerator
 {
-    interface IPasswordGenerator
+    public interface IPasswordGenerator
     {
         /// <summary>
         /// Generates a password
         /// </summary>
-        /// <returns>A random password</returns>
+        /// <returns>A random string</returns>
         string GeneratePassword();
         /// <summary>
         /// Generates a password with given length
