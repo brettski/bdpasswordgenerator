@@ -1,4 +1,5 @@
 # BD Password Generator
+_Moved from [Codeplex](https://bdpasswordgenerator.codeplex.com/) on 9/16/2017_
 
 ## Project Description
 Fast, flexible and lightweight password and random string generation library.
