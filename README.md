@@ -1,6 +1,6 @@
-# bdpasswordgenerator
+# BD Password Generator
 
-**Project Description**
+## Project Description
 Fast, flexible and lightweight password and random string generation library.
 
 * The BD Password Generation Library uses System.Security.Cryptography.RNGCryptoServiceProvider() [MSDN](http://msdn.microsoft.com/en-us/library/system.security.cryptography.rngcryptoserviceprovider.aspx) for randomization.  
