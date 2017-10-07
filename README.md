@@ -13,8 +13,16 @@ Fast, flexible and lightweight password and random string generation library.
 	* Guaranteed no duplicates!
 
 Download from nuget!
-{{ PM> Install-Package BDPasswordGenerator }}
+`PM> Install-Package BDPasswordGenerator`
 
-See [Documentation](Documentation) for details and [Examples](Examples)
+See [Documentation](https://github.com/brettski/bdpasswordgenerator/wiki) for details and [Examples](https://github.com/brettski/bdpasswordgenerator/wiki/Examples)
 
 -----
+
+## System Requirements
+### For Use
+* .NET 4.5
+### For Development
+* .NET 4.5
+* .NET 4.5 SDK
+* Visual Studio 2012+
